@@ -1,0 +1,218 @@
+
+</html><!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Signup Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h2 {
+            text-align: center;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+        input[type="text"], input[type="email"], input[type="password"] {
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        label {
+            margin-top: 10px;
+        }
+        .checkbox-label {
+            display: flex;
+            align-items: center;
+            margin-top: 10px;
+        }
+        input[type="checkbox"] {
+            margin-right: 10px;
+        }
+        button {
+            padding: 10px;
+            margin-top: 20px;
+            background-color: #5cb85c;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #4cae4c;
+        }
+        .terms {
+            text-align: center;
+            margin-top: 10px;
+        }
+        .terms a {
+            color: #337ab7;
+            text-decoration: none;
+        }
+        .terms a:hover {
+            text-decoration: underline;
+        }
+        .login-link {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .login-link a {
+            color: #5f1d1d;
+            text-decoration: none;
+            font-size: 16px;
+        }
+        .login-link a:hover {
+            text-decoration: underline;
+        }
+        .logo{
+            display: flex;
+            justify-content: right;
+            align-items: right;
+            margin-left:auto ;
+            margin-right: 0;
+            width: 100px;
+            height: 100px;
+        }
+        
+    </style>
+</head>
+<body>
+
+    <h2>Signup</h2>
+    <form action="/submit_signup" method="POST">
+
+        <img src="logo.jpg" alt="" class="logo">
+    <div class="login-link">Already have an account? 
+        <a href="/login">Log in </a>
+    </div>
+
+    <label for="username">Username</label>
+    <input type="text" id="username" name="username" required>
+        <label for="email">Email Address</label>
+        <input type="email" id="email" name="email" required>
+
+        <label for="firstname">First Name</label>
+        <input type="text" id="firstname" name="firstname" required>
+
+        <label for="lastname">Last Name</label>
+        <input type="text" id="lastname" name="lastname" required>
+
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" required>
+
+        <label for="confirm_password">Confirm Password</label>
+        <input type="password" id="confirm_password" name="confirm_password" required>
+
+                <div class="checkbox-label">
+                    <input type="checkbox" id="terms" name="terms" required>
+                    <label for="terms">I have read and agree to the <a href="/terms-of-service" target="_blank">Terms of Service</a></label>
+                </div>
+        
+                <button type="submit" id="signup">Sign Up</button>
+            </form>
+        </body>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const form = document.querySelector("form");
+    const username = document.getElementById("username");
+    const email = document.getElementById("email");
+    const firstName = document.getElementById("firstname");
+    const lastName = document.getElementById("lastname");
+    const password = document.getElementById("password");
+    const confirmPassword = document.getElementById("confirm_password");
+    const terms = document.getElementById("terms");
+
+    form.addEventListener("submit", function (event) {
+        
+        clearErrors();
+
+        let valid = true;
+        if (username.value.trim() === "") {
+            showError(username, "Username is required.");
+            valid = false;
+        }
+
+        if (!validateEmail(email.value)) {
+            showError(email, "Please enter a valid email address.");
+            valid = false;
+        }
+
+        if (firstName.value.trim() === "") {
+            showError(firstName, "First name is required.");
+            valid = false;
+        }
+
+        if (lastName.value.trim() === "") {
+            showError(lastName, "Last name is required.");
+            valid = false;
+        }
+
+        
+        if (password.value.length < 6) {
+            showError(password, "Password must be at least 6 characters long.");
+            valid = false;
+        }
+
+        
+        if (confirmPassword.value !== password.value) {
+            showError(confirmPassword, "Passwords do not match.");
+            valid = false;
+        }
+
+    
+        if (!terms.checked) {
+            showError(terms, "You must agree to the Terms of Service.");
+            valid = false;
+        }
+
+        
+        if (!valid) {
+            event.preventDefault();
+        }
+    });
+
+    
+    function validateEmail(email) {
+        const re = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+        return re.test(String(email).toLowerCase());
+    }
+
+    
+    function showError(element, message) {
+        const error = document.createElement("div");
+        error.className = "error";
+        error.style.color = "red";
+        error.style.fontSize = "12px";
+        error.innerText = message;
+        element.parentElement.appendChild(error);
+    }
+
+    
+    function clearErrors() {
+        const errors = document.querySelectorAll(".error");
+        errors.forEach(function (error) {
+            error.remove();
+        });
+    }
+});
+</script>
+</body>
+</html>
